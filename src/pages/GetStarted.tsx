@@ -33,6 +33,7 @@ export default function GetStartedPage({
   onBack,
 }: GetStartedPageProps) {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  console.log(hoveredCard)
 
   const registrationTypes = [
     {
