@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,7 @@ import { Eye, MapPin, Filter, X, Users, Heart, Search, AlertTriangle } from "luc
 import { Progress } from "@/components/ui/progress";
 
 function Donate() {
+  try {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("urgency");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -259,7 +261,9 @@ function Donate() {
 
   return (
     <div className="mb-10 min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Filter Sheet - Must be rendered first to provide context */}
       <Sheet>
+        {/* Filter Sheet Content */}
         <SheetContent side="top" className="h-auto max-h-[90vh] overflow-y-auto">
           <SheetHeader>
             <SheetTitle>Search and Filter Options</SheetTitle>
@@ -387,6 +391,9 @@ function Donate() {
             </div>
           </div>
         </SheetContent>
+
+        {/* Sheet Triggers - Now properly nested within Sheet context */}
+        {/* Header */}
         {!isLargeScreen && (
           <div className={`sticky top-0 z-10 bg-white/80 backdrop-blur-md shadow-md border-b border-indigo-100 p-4 transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}>
             <div className="max-w-6xl mx-auto">
@@ -407,6 +414,8 @@ function Donate() {
             </div>
           </div>
         )}
+
+        {/* Filter Button for Large Screen */}
         {isLargeScreen && (
           <SheetTrigger asChild>
             <Button
@@ -527,6 +536,10 @@ function Donate() {
       </div>
     </div>
   );
+  } catch (error) {
+    console.error('Error in Donate component:', error);
+    return <div>Error loading donation page. Please refresh the page.</div>;
+  }
 }
 
 export default Donate;

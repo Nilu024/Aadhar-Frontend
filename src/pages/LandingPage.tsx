@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -39,6 +39,7 @@ export default function NGOLandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentView, setCurrentView] = useState("home");
   const [isShortHeight, setIsShortHeight] = useState(false);
+  const sheetRef = useRef<HTMLButtonElement>(null);
 
   const testimonials = [
     {
@@ -193,34 +194,17 @@ export default function NGOLandingPage() {
       <header className="md:hidden bg-white/80 backdrop-blur-md shadow-lg border-b border-indigo-100">
         <div className="container mx-auto px-6 py-3 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <Sheet>
-              <SheetTrigger asChild>
-                <button aria-label="Open menu" className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
-                  <Menu className="w-5 h-5 text-white" />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="left" className="p-0">
-                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <SheetDescription className="sr-only">Navigate through the application</SheetDescription>
-                <nav className="flex flex-col p-6 space-y-4">
-                  <Button variant="ghost" onClick={() => handleNavigation("home")}>
-                    <Home className="w-5 h-5 mr-2" /> Home
-                  </Button>
-                  <Button variant="ghost" onClick={() => handleNavigation("GetStartedPage")}>
-                    <Plus className="w-5 h-5 mr-2" /> Get Started
-                  </Button>
-                  <Button variant="ghost" onClick={() => handleNavigation("individual-form")}>
-                    <User className="w-5 h-5 mr-2" /> Individual
-                  </Button>
-                  <Button variant="ghost" onClick={() => handleNavigation("ngo-form")}>
-                    <Building2 className="w-5 h-5 mr-2" /> NGO
-                  </Button>
-                  <Button variant="ghost" onClick={() => handleNavigation("volunteer-form")}>
-                    <Users className="w-5 h-5 mr-2" /> Volunteer
-                  </Button>
-                </nav>
-              </SheetContent>
-            </Sheet>
+            <button
+              aria-label="Open menu"
+              className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center"
+              onClick={() => {
+                if (sheetRef.current) {
+                  sheetRef.current.click();
+                }
+              }}
+            >
+              <Menu className="w-5 h-5 text-white" />
+            </button>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Aadhar
@@ -240,35 +224,17 @@ export default function NGOLandingPage() {
         <header className="hidden md:block bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-indigo-100">
           <div className="container mx-auto px-6 py-3 flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <button aria-label="Open menu" className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
-                    <Menu className="w-5 h-5 text-white" />
-                  </button>
-                </SheetTrigger>
-                <SheetContent side="left" className="p-0">
-                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                  <SheetDescription className="sr-only">Navigate through the application</SheetDescription>
-                  <nav className="flex flex-col p-6 space-y-4">
-                    <Button variant="ghost" onClick={() => handleNavigation("home")}>
-                      <Home className="w-5 h-5 mr-2" /> Home
-                    </Button>
-                    <Button variant="ghost" onClick={() => handleNavigation("GetStartedPage")}>
-                      <Plus className="w-5 h-5 mr-2" /> Get Started
-                    </Button>
-                    <Button variant="ghost" onClick={() => handleNavigation("individual-form")}>
-                      <User className="w-5 h-5 mr-2" /> Individual
-                    </Button>
-                    <Button variant="ghost" onClick={() => handleNavigation("ngo-form")}>
-                      <Building2 className="w-5 h-5 mr-2" /> NGO
-                    </Button>
-                    <Button variant="ghost" onClick={() => handleNavigation("volunteer-form")}>
-                      <Users className="w-5 h-5 mr-2" /> Volunteer
-                    </Button>
-
-                  </nav>
-                </SheetContent>
-              </Sheet>
+              <button
+                aria-label="Open menu"
+                className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center"
+                onClick={() => {
+                  if (sheetRef.current) {
+                    sheetRef.current.click();
+                  }
+                }}
+              >
+                <Menu className="w-5 h-5 text-white" />
+              </button>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   Aadhar
@@ -283,6 +249,36 @@ export default function NGOLandingPage() {
           </div>
         </header>
       )}
+
+      {/* Navigation Sheet - Must be rendered first to provide context */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <button ref={sheetRef} className="sr-only" aria-label="Open navigation menu">
+            Open Menu
+          </button>
+        </SheetTrigger>
+        <SheetContent side="left" className="p-0">
+          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+          <SheetDescription className="sr-only">Navigate through the application</SheetDescription>
+          <nav className="flex flex-col p-6 space-y-4">
+            <Button variant="ghost" onClick={() => handleNavigation("home")}>
+              <Home className="w-5 h-5 mr-2" /> Home
+            </Button>
+            <Button variant="ghost" onClick={() => handleNavigation("GetStartedPage")}>
+              <Plus className="w-5 h-5 mr-2" /> Get Started
+            </Button>
+            <Button variant="ghost" onClick={() => handleNavigation("individual-form")}>
+              <User className="w-5 h-5 mr-2" /> Individual
+            </Button>
+            <Button variant="ghost" onClick={() => handleNavigation("ngo-form")}>
+              <Building2 className="w-5 h-5 mr-2" /> NGO
+            </Button>
+            <Button variant="ghost" onClick={() => handleNavigation("volunteer-form")}>
+              <Users className="w-5 h-5 mr-2" /> Volunteer
+            </Button>
+          </nav>
+        </SheetContent>
+      </Sheet>
 
       {/* Header
       <header className={`${isShortHeight ? 'hidden' : 'hidden md:block'} bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-indigo-100`}>
