@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
@@ -13,9 +13,7 @@ import {
   Users, 
   Building2, 
   HandHeart,
-  Edit,
   Share2,
-  Download,
   CheckCircle,
   Star,
   Heart,
@@ -26,14 +24,11 @@ import {
   TrendingUp,
   FileText,
   Camera,
-  Settings,
   ExternalLink,
   MessageCircle,
   Facebook,
   Twitter,
   Linkedin,
-  Instagram,
-  Youtube
 } from 'lucide-react';
 
 interface ProfilePageProps {
@@ -181,12 +176,8 @@ interface VolunteerUser {
   lastActive: string;
 }
 
-type UserData = IndividualUser | NGOUser | VolunteerUser;
-
 export default function UserProfilePage({ 
   userType = 'individual', 
-  onEdit, 
-  onBack 
 }: ProfilePageProps) {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -398,32 +389,6 @@ export default function UserProfilePage({
           color: 'from-gray-500 to-gray-600',
           bgColor: 'from-gray-50 to-gray-100'
         };
-    }
-  };
-
-  const getQuickStatValue = () => {
-    switch (userType) {
-      case 'individual':
-        return (userData.stats as IndividualStats).casesHandled;
-      case 'ngo':
-        return (userData.stats as NGOStats).projectsCompleted;
-      case 'volunteer':
-        return (userData.stats as VolunteerStats).projectsJoined;
-      default:
-        return 0;
-    }
-  };
-
-  const getQuickStatLabel = () => {
-    switch (userType) {
-      case 'individual':
-        return 'Cases';
-      case 'ngo':
-        return 'Projects';
-      case 'volunteer':
-        return 'Projects';
-      default:
-        return 'Items';
     }
   };
 

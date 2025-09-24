@@ -5,23 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   User,
-  Mail,
-  Phone,
   MapPin,
-  Calendar,
   Heart,
   CheckCircle,
-  AlertCircle,
   ArrowRight,
   ArrowLeft,
-  Users,
   Clock,
-  Award,
-  Target,
-  Camera,
-  Briefcase,
   GraduationCap,
-  Star
 } from 'lucide-react';
 
 // Define TypeScript interface for form data
@@ -87,7 +77,6 @@ interface VolunteerFormData {
 }
 
 export default function VolunteerForm({ onBack }: { onBack?: () => void }): React.JSX.Element {
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<VolunteerFormData>({
     // Personal Information
@@ -194,12 +183,6 @@ export default function VolunteerForm({ onBack }: { onBack?: () => void }): Reac
     'Human Rights', 'Legal Aid', 'Mental Health', 'Disability Services'
   ];
 
-  const causesList = [
-    'Education for All', 'Healthcare Access', 'Environmental Protection', 'Gender Equality',
-    'Child Rights', 'Elderly Welfare', 'Poverty Alleviation', 'Disaster Response',
-    'Animal Protection', 'Cultural Preservation', 'Sports for Development', 'Mental Health Awareness'
-  ];
-
   const languagesList = [
     'English', 'Hindi', 'Bengali', 'Telugu', 'Marathi', 'Tamil', 'Urdu', 'Gujarati',
     'Kannada', 'Odia', 'Punjabi', 'Malayalam', 'Assamese', 'Maithili', 'Other'
@@ -272,13 +255,6 @@ export default function VolunteerForm({ onBack }: { onBack?: () => void }): Reac
       [field]: (prev[field as keyof typeof prev] as string[]).includes(value)
         ? (prev[field as keyof typeof prev] as string[]).filter((item: string) => item !== value)
         : [...(prev[field as keyof typeof prev] as string[]), value]
-    }));
-  };
-
-  const handleFileChange = (field: string, file: File | null) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: file
     }));
   };
 
