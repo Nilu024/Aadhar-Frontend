@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Eye, MapPin, Filter, X, Users, Heart, Search, SlidersHorizontal, AlertTriangle } from "lucide-react";
+import { Eye, MapPin, Filter, X, Users, Heart, Search, AlertTriangle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 function Donate() {
@@ -18,7 +18,6 @@ function Donate() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const lastScrollY = useRef(0);
-  const itemsPerPage = 9;
 
   const needs = [
     {

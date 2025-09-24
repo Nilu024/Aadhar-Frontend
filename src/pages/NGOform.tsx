@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,25 +11,19 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Building2,
-  Mail,
-  Phone,
   MapPin,
   FileText,
   Users,
   CheckCircle,
   AlertCircle,
   Upload,
-  Calendar,
-  Globe,
   Shield,
-  Award,
   Heart,
   ArrowRight,
   ArrowLeft,
   User,
   CreditCard,
   Target,
-  Camera,
 } from "lucide-react";
 
 // Define TypeScript interface for form data
@@ -129,7 +123,6 @@ export default function NGORegistrationForm({
 }: {
   onBack?: () => void;
 }) {
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<NGOFormData>({
     // Organization Basic Information

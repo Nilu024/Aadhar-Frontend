@@ -1,38 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Heart,
   Users,
   MapPin,
   Phone,
-  Mail,
-  Calendar,
-  Clock,
   AlertTriangle,
   FileText,
-  Camera,
-  Upload,
   CheckCircle,
-  AlertCircle,
   User,
-  Building2,
   Target,
-  DollarSign,
-  Briefcase,
   Shield,
-  Globe,
   ArrowRight,
   ArrowLeft,
-  Info,
-  HelpCircle,
-  Star,
   MessageCircle,
   Eye,
   Lock

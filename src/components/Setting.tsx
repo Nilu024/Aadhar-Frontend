@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,14 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   User,
-  Mail,
   Lock,
   Bell,
   Palette,
   Shield,
   Save,
   CheckCircle,
-  AlertCircle,
   Eye,
   EyeOff
 } from 'lucide-react';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Users, Building2, Plus, User, Bell, Home } from "lucide-react";
+import { Heart, Plus, User, Bell, Home } from "lucide-react";
 
 const DesktopNavbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
