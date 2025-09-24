@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import IndividualSocialWorkerForm from "./individual_form";
@@ -30,7 +29,6 @@ import {
   Home,
   Plus,
   User,
-  LogIn,
   Menu,
   Bell,
 } from "lucide-react";
@@ -495,7 +493,7 @@ export default function NGOLandingPage() {
           </div>
 
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-            {needyPeople.map((need, index) => (
+            {needyPeople.map((need) => (
               <Card
                 key={need.id}
                 className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 bg-white border-0 shadow-lg overflow-hidden"
