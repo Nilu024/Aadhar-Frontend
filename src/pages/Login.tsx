@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, Building2, HandHeart } from "lucide-react";
-
+import { Users, Building2, HandHeart, ArrowLeft } from "lucide-react";
 
 interface LoginProps {
   onBack?: () => void;
@@ -31,8 +29,7 @@ const registrationTypes = [
   },
 ];
 
-export default function Login(props: LoginProps) {
-  const { onBack } = props;
+export default function Login({ onBack }: LoginProps) {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: "",
@@ -108,6 +105,17 @@ export default function Login(props: LoginProps) {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col items-center justify-center p-6 sm:p-4 pb-20">
 
       <div className="w-full max-w-4xl">
+        {onBack && (
+          <div className="mb-6">
+            <button
+              onClick={onBack}
+              className="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back
+            </button>
+          </div>
+        )}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Welcome Back

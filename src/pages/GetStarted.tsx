@@ -29,7 +29,6 @@ interface GetStartedPageProps {
 
 export default function GetStartedPage({
   onNavigate,
-  onBack,
 }: GetStartedPageProps) {
 
   const registrationTypes = [

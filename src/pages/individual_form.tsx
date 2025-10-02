@@ -51,7 +51,7 @@ interface IndividualSocialWorkerFormProps {
   onBack: () => void;
 }
 
-export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerFormProps) {
+export default function IndividualSocialWorkerForm({ onBack }: IndividualSocialWorkerFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
 
@@ -882,6 +882,14 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="relative mb-8">
+          <Button
+            variant="ghost"
+            onClick={onBack}
+            className="absolute left-0 top-0 flex items-center text-gray-600 hover:text-gray-800"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
