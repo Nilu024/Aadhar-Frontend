@@ -32,11 +32,17 @@ function Donate() {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/needs`)
       .then(response => {
-        setNeeds(response.data);
+        if (Array.isArray(response.data)) {
+          setNeeds(response.data);
+        } else {
+          console.error('API response is not an array:', response.data);
+          setNeeds([]);
+        }
         setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching needs:', error);
+        setNeeds([]);
         setLoading(false);
       });
   }, []);
