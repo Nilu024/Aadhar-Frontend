@@ -952,7 +952,7 @@ export default function VolunteerForm({ onBack }: { onBack?: () => void }): Reac
   );
 
   return (
-    <Card className="max-w-4xl mx-auto p-6">
+    <Card className="max-w-4xl mx-auto py-6 px-0">
       <CardHeader className="flex justify-between items-center">
         <div>
           <CardTitle>Volunteer Registration</CardTitle>

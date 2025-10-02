@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -32,8 +31,6 @@ export default function GetStartedPage({
   onNavigate,
   onBack,
 }: GetStartedPageProps) {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  console.log(hoveredCard)
 
   const registrationTypes = [
     {
@@ -136,7 +133,7 @@ export default function GetStartedPage({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pb-20">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-indigo-100">
         <div className="container mx-auto px-6 py-4">
@@ -196,12 +193,10 @@ export default function GetStartedPage({
 
           {/* Registration Type Cards */}
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-            {registrationTypes.map((type, index) => (
+            {registrationTypes.map((type) => (
               <Card
                 key={type.id}
                 className={`group relative overflow-hidden border-2 ${type.borderColor} ${type.hoverColor} transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-3 bg-gradient-to-br ${type.bgColor}`}
-                onMouseEnter={() => setHoveredCard(index)}
-                onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => handleCardClick(type.id)}
               >
                 {/* Background Pattern */}

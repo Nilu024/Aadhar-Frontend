@@ -1,4 +1,6 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -11,13 +13,15 @@ import {
   Users,
   Heart,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  Upload
 } from 'lucide-react';
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   phone: string;
   dateOfBirth: string;
   gender: string;
@@ -49,11 +53,14 @@ interface IndividualSocialWorkerFormProps {
 
 export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<FormData>({
     // Personal Information
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
     phone: '',
     dateOfBirth: '',
     gender: '',
@@ -86,8 +93,8 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverErrors, setServerErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const totalSteps = 4;
 
@@ -129,6 +136,26 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
         [field]: ''
       }));
     }
+    if (serverErrors[field]) {
+      setServerErrors(prev => ({
+        ...prev,
+        [field]: ''
+      }));
+    }
+  };
+
+  const handleFileChange = (field: 'profilePhoto' | 'documents', files: FileList | null) => {
+    if (field === 'profilePhoto' && files && files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        profilePhoto: files[0]
+      }));
+    } else if (field === 'documents' && files) {
+      setFormData(prev => ({
+        ...prev,
+        documents: Array.from(files)
+      }));
+    }
   };
 
   const handleArrayChange = (field: string, value: string) => {
@@ -147,16 +174,18 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
     const newErrors: Record<string, string> = {};
     
     switch (step) {
-      case 1:
-        if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-        if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-        if (!formData.email.trim()) newErrors.email = 'Email is required';
-        else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-        if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-        else if (!/^[6-9]\d{9}$/.test(formData.phone)) newErrors.phone = 'Enter valid Indian phone number';
-        if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
-        if (!formData.gender) newErrors.gender = 'Gender is required';
-        break;
+  case 1:
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
+    if (!formData.password.trim()) newErrors.password = 'Password is required';
+    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!/^[6-9]\d{9}$/.test(formData.phone)) newErrors.phone = 'Enter valid Indian phone number';
+    if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
+    if (!formData.gender) newErrors.gender = 'Gender is required';
+    break;
         
       case 2:
         if (!formData.address.trim()) newErrors.address = 'Address is required';
@@ -170,6 +199,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
         if (!formData.education.trim()) newErrors.education = 'Education is required';
         if (formData.specialization.length === 0) newErrors.specialization = 'Select at least one specialization';
         if (!formData.experience) newErrors.experience = 'Experience is required';
+        if (!formData.socialWorkLicense.trim()) newErrors.socialWorkLicense = 'Social work license is required';
         if (formData.languages.length === 0) newErrors.languages = 'Select at least one language';
         break;
         
@@ -198,12 +228,87 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
     if (!validateStep(currentStep)) return;
     
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+    setErrors({});
+    setServerErrors({});
+
+    try {
+      const name = `${formData.firstName} ${formData.lastName}`.trim();
+      const submitData = {
+        role: 'individual',
+        name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode,
+        education: formData.education,
+        expertise: formData.specialization,
+        experience: formData.experience,
+        languages: formData.languages,
+        availability: formData.availability,
+        bio: formData.bio,
+        motivation: formData.motivation,
+        currentEmployment: formData.currentEmployment,
+        organization: formData.organization,
+        socialWorkLicense: formData.socialWorkLicense,
+        expertiseAreas: formData.expertiseAreas,
+        workingHours: formData.workingHours,
+        achievements: formData.achievements,
+        references: formData.references,
+      };
+
+      const response = await axios.post('http://localhost:5000/api/auth/register', submitData);
+
+      // Success
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      // Upload files if present
+      if (formData.profilePhoto || formData.documents.length > 0) {
+        const uploadFormData = new FormData();
+        if (formData.profilePhoto) {
+          uploadFormData.append('profilePhoto', formData.profilePhoto);
+        }
+        formData.documents.forEach(doc => {
+          uploadFormData.append('documents', doc);
+        });
+        uploadFormData.append('userId', response.data.user._id);
+
+        try {
+          await axios.post('http://localhost:5000/api/upload', uploadFormData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${response.data.token}`
+            }
+          });
+        } catch (uploadError) {
+          console.warn('File upload failed, but registration succeeded:', uploadError);
+          // Don't fail registration on upload error
+        }
+      }
+
+      navigate('/profile');
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      if (error.response && error.response.data) {
+        const data = error.response.data;
+        if (data.errors) {
+          const errorObj: Record<string, string> = {};
+          data.errors.forEach((err: any) => {
+            errorObj[err.param] = err.msg;
+          });
+          setServerErrors(errorObj);
+        } else {
+          alert(data.message || 'Registration failed');
+        }
+      } else {
+        alert('Network error. Please try again.');
+      }
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-    }, 2000);
+    }
   };
 
   const renderStepIndicator = () => (
@@ -300,6 +405,22 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             onChange={(e) => handleInputChange('email', e.target.value)}
           />
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Password <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="password"
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              errors.password ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Create a secure password"
+            value={formData.password}
+            onChange={(e) => handleInputChange('password', e.target.value)}
+          />
+          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
         </div>
 
         <div>
@@ -490,26 +611,27 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Years of Experience <span className="text-red-500">*</span>
-            </label>
-            <select
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
-                errors.experience ? 'border-red-500' : 'border-gray-300'
-              }`}
-              value={formData.experience}
-              onChange={(e) => handleInputChange('experience', e.target.value)}
-            >
-              <option value="">Select Experience</option>
-              <option value="0-1">0-1 years</option>
-              <option value="1-3">1-3 years</option>
-              <option value="3-5">3-5 years</option>
-              <option value="5-10">5-10 years</option>
-              <option value="10+">10+ years</option>
-            </select>
-            {errors.experience && <p className="text-red-500 text-sm mt-1">{errors.experience}</p>}
-          </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Years of Experience <span className="text-red-500">*</span>
+          </label>
+          <select
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              errors.experience ? 'border-red-500' : 'border-gray-300'
+            }`}
+            value={formData.experience}
+            onChange={(e) => handleInputChange('experience', e.target.value)}
+          >
+            <option value="">Select Experience</option>
+            <option value="0-1">0-1 years</option>
+            <option value="1-3">1-3 years</option>
+            <option value="3-5">3-5 years</option>
+            <option value="5-10">5-10 years</option>
+            <option value="10+">10+ years</option>
+          </select>
+          {errors.experience && <p className="text-red-500 text-sm mt-1">{errors.experience}</p>}
+          {serverErrors.experience && <p className="text-red-500 text-sm mt-1">{serverErrors.experience}</p>}
+        </div>
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -541,6 +663,24 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             value={formData.organization}
             onChange={(e) => handleInputChange('organization', e.target.value)}
           />
+          {serverErrors.organization && <p className="text-red-500 text-sm mt-1">{serverErrors.organization}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Social Work License Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              errors.socialWorkLicense ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Enter your social work license number"
+            value={formData.socialWorkLicense}
+            onChange={(e) => handleInputChange('socialWorkLicense', e.target.value)}
+          />
+          {errors.socialWorkLicense && <p className="text-red-500 text-sm mt-1">{errors.socialWorkLicense}</p>}
+          {serverErrors.socialWorkLicense && <p className="text-red-500 text-sm mt-1">{serverErrors.socialWorkLicense}</p>}
         </div>
 
         <div>
@@ -561,6 +701,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             ))}
           </div>
           {errors.languages && <p className="text-red-500 text-sm mt-1">{errors.languages}</p>}
+          {serverErrors.languages && <p className="text-red-500 text-sm mt-1">{serverErrors.languages}</p>}
         </div>
       </div>
     </div>
@@ -590,6 +731,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
           />
           <div className="flex justify-between mt-1">
             {errors.bio && <p className="text-red-500 text-sm">{errors.bio}</p>}
+            {serverErrors.bio && <p className="text-red-500 text-sm">{serverErrors.bio}</p>}
             <p className="text-sm text-gray-500">{formData.bio.length}/500 characters</p>
           </div>
         </div>
@@ -608,6 +750,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             onChange={(e) => handleInputChange('motivation', e.target.value)}
           />
           {errors.motivation && <p className="text-red-500 text-sm mt-1">{errors.motivation}</p>}
+          {serverErrors.motivation && <p className="text-red-500 text-sm mt-1">{serverErrors.motivation}</p>}
         </div>
 
         <div>
@@ -646,6 +789,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
               <option value="flexible">Flexible</option>
               <option value="on-call">On Call Basis</option>
             </select>
+            {serverErrors.availability && <p className="text-red-500 text-sm mt-1">{serverErrors.availability}</p>}
           </div>
 
           <div>
@@ -663,6 +807,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
               <option value="evening">Evening (5 PM - 9 PM)</option>
               <option value="flexible">Flexible Hours</option>
             </select>
+            {serverErrors.workingHours && <p className="text-red-500 text-sm mt-1">{serverErrors.workingHours}</p>}
           </div>
         </div>
 
@@ -677,6 +822,7 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             value={formData.achievements}
             onChange={(e) => handleInputChange('achievements', e.target.value)}
           />
+          {serverErrors.achievements && <p className="text-red-500 text-sm mt-1">{serverErrors.achievements}</p>}
         </div>
 
         <div>
@@ -690,62 +836,49 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
             value={formData.references}
             onChange={(e) => handleInputChange('references', e.target.value)}
           />
+          {serverErrors.references && <p className="text-red-500 text-sm mt-1">{serverErrors.references}</p>}
+        </div>
+
+        {/* File Uploads */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+              <Upload className="w-4 h-4 mr-2" />
+              Profile Photo (Optional)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleFileChange('profilePhoto', e.target.files)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+              <Upload className="w-4 h-4 mr-2" />
+              Supporting Documents (Optional, max 5)
+            </label>
+            <input
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => handleFileChange('documents', e.target.files)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {formData.documents.length > 0 && (
+              <p className="text-sm text-gray-600 mt-1">Selected: {formData.documents.length} file(s)</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 
-  const renderSuccessMessage = () => (
-    <div className="text-center py-12">
-      <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <CheckCircle className="w-12 h-12 text-green-600" />
-      </div>
-      <h3 className="text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h3>
-      <p className="text-xl text-gray-600 mb-6">
-        Thank you for joining our platform. Your application is being reviewed.
-      </p>
-      <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8 max-w-md mx-auto">
-        <h4 className="font-semibold text-green-800 mb-2">What happens next?</h4>
-        <ul className="text-sm text-green-700 space-y-1 text-left">
-          <li>• We'll review your application within 2-3 business days</li>
-          <li>• You'll receive an email confirmation shortly</li>
-          <li>• Our team may contact you for verification</li>
-          <li>• Once approved, you can start connecting with those who need help</li>
-        </ul>
-      </div>
-      <div className="space-y-4">
-        <Button 
-          size="lg" 
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
-          onClick={() => window.location.href = '/dashboard'}
-        >
-          Go to Dashboard
-        </Button>
-        <div>
-          <Button variant="outline" onClick={() => window.location.href = '/'}>
-            Return to Home
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
 
-  if (submitSuccess) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12">
-        <div className="container mx-auto px-6">
-          <Card className="max-w-2xl mx-auto bg-white shadow-xl">
-            <CardContent className="p-8">
-              {renderSuccessMessage()}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 pb-20">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="relative mb-8">
@@ -781,6 +914,21 @@ export default function IndividualSocialWorkerForm({  }: IndividualSocialWorkerF
           </CardHeader>
 
           <CardContent className="p-8">
+            {/* Server Errors Alert */}
+            {Object.keys(serverErrors).length > 0 && (
+              <Alert className="mb-6 border-red-200 bg-red-50">
+                <AlertCircle className="h-4 w-4 text-red-600" />
+                <AlertDescription className="text-red-800">
+                  Please fix the following errors:
+                  <ul className="list-disc list-inside mt-1">
+                    {Object.values(serverErrors).map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </Alert>
+            )}
+
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
             {currentStep === 3 && renderStep3()}

@@ -1722,8 +1722,8 @@ export default function NGORegistrationForm({
   );
 
   if (submitSuccess) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 py-12">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 py-12 pb-20">
         <div className="container mx-auto px-6">
           <Card className="max-w-2xl mx-auto bg-white shadow-xl">
             <CardContent className="p-8">{renderSuccessMessage()}</CardContent>

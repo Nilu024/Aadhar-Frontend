@@ -18,6 +18,7 @@ import Donate from "./pages/Donate";
 import AddNeed from "./pages/AddNeed";
 import Setting from "./components/Setting";
 import NotFound from "./pages/NotFound";
+import NeedDetails from "./pages/NeedDetails";
 import "./App.css";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/notifications" element={<Notification />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/add-need" element={<AddNeed />} />
+        <Route path="/need/:id" element={<NeedDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

@@ -1,8 +1,14 @@
-# TODO: Implement Settings UI in Setting.tsx
+# Profile Page Backend Integration TODO
 
 ## Tasks
-- [x] Update Setting.tsx with settings UI code using UI components (Card, Input, Label, Button, Select, etc.)
-- [x] Add typical settings fields: username, email, password change, notification preferences, theme selection
-- [x] Implement state management for form inputs
-- [x] Add save functionality with success feedback
-- [x] Ensure consistent styling with AddNeed.tsx component patterns
+- [ ] Add state management for loading, error, and user data
+- [ ] Implement fetchUserProfile function with API call
+- [ ] Map backend response to frontend interfaces
+- [ ] Handle authentication and error states
+- [ ] Remove mock data and userType prop dependency
+- [ ] Update stats calculation for actual user data
+- [ ] Test profile page functionality
+
+## Completed
+- [x] Analyze backend API and data structure
+- [x] Plan the implementation

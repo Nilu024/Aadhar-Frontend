@@ -190,10 +190,10 @@ export default function NGOLandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pb-20">
       {/* Mobile Navbar for screens less than 800px */}
       <header className="md:hidden bg-white/80 backdrop-blur-md shadow-lg border-b border-indigo-100">
-        <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+        <div className="container mx-auto px-0 py-3 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <button
               aria-label="Open menu"
@@ -223,7 +223,7 @@ export default function NGOLandingPage() {
       {/* Hamburger for short height on desktop */}
       {isShortHeight && (
         <header className="hidden md:block bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-indigo-100">
-          <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+        <div className="container mx-auto px-0 py-3 flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <button
                 aria-label="Open menu"
@@ -282,42 +282,42 @@ export default function NGOLandingPage() {
       </Sheet>
 
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative py-16 sm:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 via-purple-600/10 to-pink-600/10"></div>
-        <div className="container mx-auto px-6 relative">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <Sparkles className="w-8 h-8 text-yellow-500 animate-pulse" />
-              <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-1">
+        <div className="container mx-auto px-0 relative">
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
+              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500 animate-pulse" />
+              <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 sm:px-4 py-1 text-sm">
                 Making a Difference Together
               </Badge>
-              <Sparkles className="w-8 h-8 text-yellow-500 animate-pulse" />
+              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500 animate-pulse" />
             </div>
 
-      <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+      <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
         Unite for a
         <br />
-        <span className="text-4xl sm:text-5xl md:text-8xl">Better Tomorrow</span>
+        <span className="text-3xl sm:text-4xl md:text-6xl">Better Tomorrow</span>
       </h1>
 
-      <p className="text-base sm:text-lg md:text-2xl text-gray-700 mb-8 leading-relaxed">
+      <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-6 sm:mb-8 leading-relaxed">
         Connect with NGOs, individual social workers, and volunteers to
         create meaningful impact in communities across India
       </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <Button
                 size="lg"
                 onClick={() => handleNavigation("GetStartedPage")}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 Start Helping Today
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 py-4 rounded-full border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50"
               >
                 Learn More
               </Button>
@@ -327,19 +327,19 @@ export default function NGOLandingPage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 bg-white/50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
+      <section className="py-16 sm:py-20 bg-white/50">
+        <div className="container mx-auto px-0">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
               Three Ways to Make Impact
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600">
               Choose your path to creating positive change in society. Every
               contribution matters, every effort counts.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 icon: Users,
@@ -391,23 +391,23 @@ export default function NGOLandingPage() {
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
                 ></div>
-                <CardHeader className="relative z-10">
+                <CardHeader className="relative z-10 p-4 sm:p-6">
                   <div
-                    className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${category.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <category.icon className="w-8 h-8 text-white" />
+                    <category.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
-                  <CardTitle className="text-2xl font-bold text-gray-800 group-hover:text-gray-900">
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-gray-800 group-hover:text-gray-900">
                     {category.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">
+                  <CardDescription className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     {category.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="relative z-10">
-                  <ul className="space-y-2 mb-6">
+                <CardContent className="relative z-10 p-4 sm:p-6">
+                  <ul className="space-y-1 sm:space-y-2 mb-6">
                     {category.features.map((feature, i) => (
-                      <li key={i} className="flex items-center text-gray-700">
+                      <li key={i} className="flex items-center text-gray-700 text-sm sm:text-base">
                         <div
                           className={`w-2 h-2 bg-gradient-to-r ${category.color} rounded-full mr-3`}
                         ></div>
@@ -425,7 +425,7 @@ export default function NGOLandingPage() {
                         handleNavigation("individual-form");
                       }
                     }}
-                    className={`w-full bg-gradient-to-r ${category.color} hover:shadow-lg transition-all duration-300`}
+                    className={`w-full bg-gradient-to-r ${category.color} hover:shadow-lg transition-all duration-300 px-6 sm:px-8 py-3 sm:py-4`}
                   >
                     Register Now
                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -438,19 +438,19 @@ export default function NGOLandingPage() {
       </section>
 
       {/* Needy People Section */}
-      <section className="py-20 bg-gradient-to-r from-indigo-50 to-purple-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-indigo-50 to-purple-50">
+        <div className="container mx-auto px-0">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
               People Who Need Your Help
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600">
               These are real people and communities waiting for your support.
               Your contribution can change lives.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {needyPeople.map((need) => (
               <Card
                 key={need.id}
@@ -540,7 +540,7 @@ export default function NGOLandingPage() {
 
       {/* Testimonials */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-0">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
               Stories of Impact
@@ -550,7 +550,7 @@ export default function NGOLandingPage() {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <div>
             <Card className="bg-gradient-to-r from-indigo-50 to-purple-50 border-0 shadow-xl">
               <CardContent className="p-12 text-center">
                 <div className="flex justify-center mb-4">
@@ -596,11 +596,11 @@ export default function NGOLandingPage() {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
-        <div className="container mx-auto px-6 text-center">
+        <div className="container mx-auto px-0 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Make a Difference?
           </h2>
-          <p className="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-indigo-100 mb-8">
             Join thousands of changemakers who are creating positive impact in
             communities across India
           </p>
@@ -627,21 +627,21 @@ export default function NGOLandingPage() {
 
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-3 mb-4">
+      <footer className="bg-gray-900 text-white py-8 md:py-12">
+        <div className="container mx-auto px-0">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start space-x-3 mb-4">
                 <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                   <Heart className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">Aadhar</h3>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-400 text-center md:text-left">
                 Connecting hearts, changing lives, one community at a time.
               </p>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
@@ -666,7 +666,7 @@ export default function NGOLandingPage() {
                 </li>
               </ul>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <h4 className="text-lg font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
@@ -691,19 +691,19 @@ export default function NGOLandingPage() {
                 </li>
               </ul>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <h4 className="text-lg font-semibold mb-4">Connect</h4>
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-400 mb-4 text-center md:text-left">
                 Stay updated with our latest initiatives
               </p>
-              <div className="flex justify-center space-x-4">
+              <div className="flex justify-center md:justify-start space-x-4">
                 <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700">
                   Subscribe
                 </Button>
               </div>
             </div>
           </div>
-          <div className="mb-5 border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <div className="border-t border-gray-800 mt-8 pt-6 md:pt-8 text-center text-gray-400">
             <p>
               &copy; 2025 Aadhar. All rights reserved. Made with ❤️ for a
               better world.

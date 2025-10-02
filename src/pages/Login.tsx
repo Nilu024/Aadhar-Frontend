@@ -38,21 +38,55 @@ export default function Login(props: LoginProps) {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // Clear error on input
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual login logic here (API call, validation, etc.)
-    // For now, simulate successful login
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userType", selectedType || "individual");
-    localStorage.setItem("userEmail", formData.email);
-    alert(`Logged in successfully as ${selectedType} with email ${formData.email}`);
-    // Redirect to home or dashboard
-    window.location.href = "/";
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      // Store token and user data
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userType", data.user.role);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("userName", data.user.name);
+      localStorage.setItem("isProfileComplete", data.user.isProfileComplete.toString());
+      localStorage.setItem("isVerified", data.user.isVerified.toString());
+
+      // Redirect to home
+      window.location.href = "/";
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegisterRedirect = () => {
@@ -71,7 +105,7 @@ export default function Login(props: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col items-center justify-center p-6 sm:p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col items-center justify-center p-6 sm:p-4 pb-20">
       <Button
         variant="outline"
         onClick={onBack}
@@ -120,6 +154,12 @@ export default function Login(props: LoginProps) {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+                  {error}
+                </div>
+              )}
+
               <div>
                 <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                   Email Address
@@ -131,7 +171,8 @@ export default function Login(props: LoginProps) {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-50"
                   placeholder="Enter your email"
                   autoComplete="email"
                 />
@@ -148,7 +189,8 @@ export default function Login(props: LoginProps) {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-50"
                   placeholder="Enter your password"
                   autoComplete="current-password"
                 />
@@ -156,13 +198,14 @@ export default function Login(props: LoginProps) {
 
               <button
                 type="submit"
-                className={`w-full py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 ${
+                disabled={loading}
+                className={`w-full py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                   registrationTypes.find((t) => t.id === selectedType)
                     ? `bg-gradient-to-r ${registrationTypes.find((t) => t.id === selectedType)?.color}`
                     : "bg-indigo-600"
                 } hover:shadow-xl`}
               >
-                Sign In
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </form>
 

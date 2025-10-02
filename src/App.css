@@ -1,14 +1,49 @@
+/* Mobile-first: Full width on small screens, centered on larger */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1rem;
-  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left; /* Change to left for mobile app feel */
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   #root {
-    padding: 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
   }
+}
+
+
+
+/* Mobile app styles */
+@media (max-width: 767px) {
+  /* Ensure touch targets are at least 44px */
+  button, .btn, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Full-width cards and containers */
+  .card, .container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbars on mobile for app-like feel */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .logo {
@@ -45,4 +80,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Global override to remove side spacing from containers */
+.container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
