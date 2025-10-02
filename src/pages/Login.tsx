@@ -106,14 +106,6 @@ export default function Login(props: LoginProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col items-center justify-center p-6 sm:p-4 pb-20">
-      <Button
-        variant="outline"
-        onClick={onBack}
-        className="absolute top-4 left-4 flex items-center px-4 py-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-full shadow-md"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Home
-      </Button>
 
       <div className="w-full max-w-4xl">
         <div className="text-center mb-8">

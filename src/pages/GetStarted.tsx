@@ -134,37 +134,6 @@ export default function GetStartedPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pb-20">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-indigo-100">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center space-x-3 order-1 md:order-1">
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
-                <Heart className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Aadhar
-                </h1>
-                <p className="text-sm text-gray-600">
-                  Connecting Hearts, Changing Lives
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3 order-2 md:order-2">
-              {onBack && (
-                <Button
-                  variant="outline"
-                  onClick={onBack}
-                  className="w-full md:w-auto mb-4 md:mb-0 border-indigo-600 text-indigo-600 hover:bg-indigo-50"
-                >
-                  ← Back to Home
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="py-16 lg:py-20">
