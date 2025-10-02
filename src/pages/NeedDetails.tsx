@@ -16,7 +16,7 @@ const NeedDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/needs/${id}`)
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/needs/${id}`)
         .then(response => {
           setNeed(response.data);
           setLoading(false);

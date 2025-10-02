@@ -259,7 +259,7 @@ export default function IndividualSocialWorkerForm({ onBack }: IndividualSocialW
         references: formData.references,
       };
 
-      const response = await axios.post('http://localhost:5000/api/auth/register', submitData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, submitData);
 
       // Success
       localStorage.setItem('token', response.data.token);
@@ -278,7 +278,7 @@ export default function IndividualSocialWorkerForm({ onBack }: IndividualSocialW
         uploadFormData.append('userId', response.data.user._id);
 
         try {
-          await axios.post('http://localhost:5000/api/upload', uploadFormData, {
+          await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, uploadFormData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${response.data.token}`

@@ -30,7 +30,7 @@ function Donate() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/needs')
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/needs`)
       .then(response => {
         setNeeds(response.data);
         setLoading(false);
