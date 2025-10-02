@@ -68,7 +68,7 @@ function DonateSidebar({
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={onToggle}
           aria-hidden="true"
         />
@@ -76,7 +76,7 @@ function DonateSidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full bg-white z-50 transform transition-transform duration-300 lg:sticky lg:top-0 lg:border-r lg:h-screen ${
+        className={`fixed top-0 left-0 h-full bg-white z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } ${isCollapsed ? "w-16" : "w-full max-w-sm"}`}
       >
@@ -100,7 +100,6 @@ function DonateSidebar({
               variant="ghost"
               size="sm"
               onClick={onToggle}
-              className="lg:hidden"
               aria-label="Close filters"
             >
               <X className="w-5 h-5" />

@@ -182,7 +182,6 @@ function Donate() {
                   variant="outline"
                   size="sm"
                   onClick={() => setSidebarOpen(true)}
-                  className="lg:hidden"
                 >
                   <Filter className="w-4 h-4 mr-2" />
                   Filters
